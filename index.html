@@ -69,11 +69,13 @@
         .table-container {
             margin: 20px 0;
             border: 2px solid #000;
+            overflow-x: auto; /* Memungkinkan scroll horizontal jika tabel terlalu lebar */
         }
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 12px;
+            min-width: 600px; /* Lebar minimum agar tidak terlalu sempit */
         }
         th, td {
             border: 1px solid #000;
@@ -150,7 +152,44 @@
             background-color: #0056b3;
         }
 
-        /* Gaya Khusus untuk Cetak (Print) */
+        /* === GAYA RESPONSIVE UNTUK MOBILE === */
+        @media screen and (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 16px;
+            }
+            h2 {
+                font-size: 13px;
+            }
+            .location-grid, .validity-grid {
+                grid-template-columns: 1fr; /* Ubah menjadi satu kolom */
+                gap: 10px;
+            }
+            .info-row {
+                flex-direction: column; /* Label dan input ditumpuk */
+                align-items: flex-start;
+                margin-bottom: 12px;
+            }
+            .info-label {
+                width: 100%; /* Lebar penuh */
+                margin-bottom: 4px;
+            }
+            .info-input {
+                width: 100%;
+                box-sizing: border-box; /* Agar padding tidak menambah lebar */
+            }
+            .signature-section {
+                justify-content: center; /* Pusatkan tanda tangan */
+            }
+        }
+
+
+        /* === GAYA KHUSUS UNTUK CETAK (TIDAK BERUBAH) === */
         @media print {
             @page {
                 size: A4;
@@ -173,6 +212,9 @@
             .print-btn, .header, .notes {
                 display: none; /* Sembunyikan tombol, header, dan catatan saat cetak */
             }
+            .table-container {
+                overflow-x: visible; /* Tampilkan tabel penuh di cetakan */
+            }
             .info-input, .input-cell input, input[type="text"], input[type="date"], input[type="number"] {
                 -webkit-appearance: none;
                 -moz-appearance: none;
@@ -185,10 +227,10 @@
                 font-family: Arial, sans-serif;
                 color: #000;
             }
-            input[type=number]::-webkit-inner-spin-button, 
-            input[type=number]::-webkit-outer-spin-button { 
-                -webkit-appearance: none; 
-                margin: 0; 
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
             }
             .section-title, .total-row, th {
                 background-color: #e0e0e0 !important;
@@ -200,6 +242,7 @@
                 page-break-inside: avoid;
             }
         }
+
     </style>
 </head>
 <body>
