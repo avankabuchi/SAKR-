@@ -446,8 +446,16 @@
                     tanggalSelesaiInput.value = '';
                 }
             }
+            
+            // KODE BARU UNTUK MEMASTIKAN TANGGAL LOKAL YANG DIGUNAKAN
             const today = new Date();
-            tanggalMulaiInput.value = today.toISOString().split('T')[0];
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Tambah 1 ke bulan & format 2 digit
+            const day = String(today.getDate()).padStart(2, '0'); // Format 2 digit
+
+            const localDateString = `${year}-${month}-${day}`;
+            tanggalMulaiInput.value = localDateString; // Gunakan string tanggal lokal
+            
             masaBerlakuInput.addEventListener('input', calculateEndDate);
             tanggalMulaiInput.addEventListener('change', calculateEndDate);
             calculateEndDate();
