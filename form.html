@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAKR - Siap Cetak</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border: 2px solid #000;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .header h2 {
+            font-size: 14px;
+            margin: 5px 0;
+            font-weight: normal;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-weight: bold;
+            background-color: #e0e0e0;
+            padding: 5px;
+            border: 1px solid #000;
+            text-align: center;
+        }
+        .info-row {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        .info-label {
+            font-weight: bold;
+            width: 200px;
+            margin-right: 10px;
+        }
+        .info-input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .table-container {
+            margin: 20px 0;
+            border: 2px solid #000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        .input-cell {
+            padding: 2px;
+        }
+        .input-cell input {
+            width: 100%;
+            border: none;
+            text-align: center;
+            padding: 4px;
+            font-size: 11px;
+            background-color: transparent;
+        }
+        .volume-cell {
+            background-color: #fff2cc;
+            font-weight: bold;
+        }
+        .total-row {
+            background-color: #e0e0e0;
+            font-weight: bold;
+        }
+        .validity-section {
+            border: 2px solid #000;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .validity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+        .signature-section {
+            display: flex;
+            justify-content: flex-end; /* Align to the right */
+            margin-top: 30px;
+        }
+        .signature-box {
+            text-align: center;
+            width: 250px; /* Adjusted width */
+        }
+        .signature-line {
+            border-top: 1px solid #000;
+            margin-top: 60px;
+            padding-top: 5px;
+        }
+        .notes {
+            font-size: 11px;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+        }
+        .print-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+        }
+        .print-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Gaya Khusus untuk Cetak (Print) */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm;
+            }
+            body {
+                margin: 0;
+                background-color: #fff;
+                color: #000;
+                font-size: 10pt;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+                max-width: 100%;
+                padding: 0;
+            }
+            .print-btn, .header, .notes {
+                display: none; /* Sembunyikan tombol, header, dan catatan saat cetak */
+            }
+            .info-input, .input-cell input, input[type="text"], input[type="date"], input[type="number"] {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                border: none !important;
+                background-color: transparent !important;
+                box-shadow: none !important;
+                padding: 1px;
+                font-size: 10pt !important;
+                font-family: Arial, sans-serif;
+                color: #000;
+            }
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none; 
+                margin: 0; 
+            }
+            .section-title, .total-row, th {
+                background-color: #e0e0e0 !important;
+            }
+            .volume-cell {
+                 background-color: #fff !important;
+            }
+            .table-container, .validity-section, .signature-section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+             <h2>FORMULIR SAKR</h2>
+            <p>Isi data di bawah ini. Tanggal berlaku akan terisi otomatis. Klik tombol cetak jika sudah selesai.</p>
+        </div>
+
+        <h1 style="text-align:center;">SURAT ANGKUTAN KAYU RAKYAT</h1>
+        <h2 style="text-align: center;">(Berlaku Sebagai Deklarasi Hasil Hutan)</h2>
+        <div class="info-row">
+            <span class="info-label" style="width: 60px;">Nomor:</span>
+            <input type="text" class="info-input" id="nomor" value="02/03/HD PUTRA/D/2025">
+        </div>
+
+        <div class="location-grid">
+            <div>
+                <div class="info-row"><span class="info-label">Desa:</span><input type="text" class="info-input" id="desa" value="PEKUNCEN"></div>
+                <div class="info-row"><span class="info-label">Kecamatan:</span><input type="text" class="info-input" id="kecamatan" value="KROYA"></div>
+                <div class="info-row"><span class="info-label">Kabupaten/Kota:</span><input type="text" class="info-input" id="kabupaten" value="CILACAP"></div>
+                <div class="info-row"><span class="info-label">Provinsi:</span><input type="text" class="info-input" id="provinsi" value="JAWA TENGAH"></div>
+            </div>
+            <div>
+                <div class="section-title">ASAL KAYU</div>
+                <div class="info-row"><span class="info-label">Bukti kepemilikan:</span><input type="text" class="info-input" id="bukti_milik" value="HAK MILIK"></div>
+                <div class="info-row"><span class="info-label">No. bukti kepemilikan:</span><input type="text" class="info-input" id="no_bukti" value="HAK MILIK"></div>
+                <div class="info-row"><span class="info-label">Nama Pengirim:</span><input type="text" class="info-input" id="nama_pengirim" value="GIYONO YUSUF"></div>
+                <div class="info-row"><span class="info-label">NIK Pengirim:</span><input type="text" class="info-input" id="nik_pengirim" value="3301061507770007"></div>
+                <div class="info-row"><span class="info-label">Alamat pengirim:</span><input type="text" class="info-input" id="alamat_pengirim" value="JL. MAJAPAHIT"></div>
+                <div class="info-row"><span class="info-label">Tempat muat:</span><input type="text" class="info-input" id="tempat_muat" value="PESANGGRAHAN"></div>
+                <div class="info-row"><span class="info-label">Jenis dan identitas asal angkut:</span><input type="text" class="info-input" id="identitas_angkut" value="R 8799 JJ"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">TUJUAN PENGANGKUTAN</div>
+            <div class="info-row"><span class="info-label">Penerima:</span><input type="text" class="info-input" id="penerima" value="UD BERKAH BERSAMA"></div>
+            <div class="info-row"><span class="info-label">Alamat penerima:</span><input type="text" class="info-input" id="alamat_penerima" value="BEKASI"></div>
+        </div>
+
+        <div class="validity-section">
+            <div class="section-title">MASA BERLAKU</div>
+            <div class="validity-grid">
+                <div><strong>Berlaku selama (hari):</strong><input type="number" class="info-input" id="masa_berlaku_hari" value="3" style="margin-top: 5px;"></div>
+                <div><strong>dari tanggal:</strong><input type="date" class="info-input" id="tanggal_mulai" style="margin-top: 5px;"></div>
+                <div><strong>sampai dengan tanggal:</strong><input type="date" class="info-input" id="tanggal_selesai" style="margin-top: 5px;" readonly></div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th rowspan="2" style="width: 8%;">NOMOR</th>
+                        <th colspan="3" style="width: 30%;">JENIS KAYU</th>
+                        <th rowspan="2" style="width: 12%;">JUMLAH<br>(BATANG/KEPING/IKAT)</th>
+                        <th rowspan="2" style="width: 12%;">VOLUME<br>(M³)</th>
+                        <th rowspan="2" style="width: 15%;">KETERANGAN</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 8%;">P (cm)</th>
+                        <th style="width: 8%;">L (cm)</th>
+                        <th style="width: 14%;">T (cm)</th>
+                    </tr>
+                </thead>
+                <tbody id="dataBody">
+                    <tr>
+                        <td>1</td>
+                        <td class="input-cell"><input type="number" value="6" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="12" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="200" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="100" oninput="calculateVolume(this)"></td>
+                        <td class="volume-cell">1.44</td>
+                        <td class="input-cell"><input type="text" value="Kayu Rakyat"></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="input-cell"><input type="number" value="6" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="15" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="200" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="150" oninput="calculateVolume(this)"></td>
+                        <td class="volume-cell">2.70</td>
+                        <td class="input-cell"><input type="text" value="Kayu Rakyat"></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="input-cell"><input type="number" value="2" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="20" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="200" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="210" oninput="calculateVolume(this)"></td>
+                        <td class="volume-cell">1.68</td>
+                        <td class="input-cell"><input type="text" value="Kayu Rakyat"></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="input-cell"><input type="number" value="4" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="25" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="200" oninput="calculateVolume(this)"></td>
+                        <td class="input-cell"><input type="number" value="252" oninput="calculateVolume(this)"></td>
+                        <td class="volume-cell">5.04</td>
+                        <td class="input-cell"><input type="text" value="Kayu Rakyat"></td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="4"><strong>JUMLAH</strong></td>
+                        <td id="totalJumlah"><strong>712</strong></td>
+                        <td id="totalVolume"><strong>10.86</strong></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="notes">
+            <strong>Catatan:</strong><br>
+            *) dari bukti pemilikan/penguasaan sesuai ketentuan Kementerian ATR/BPN<br>
+            *) untuk pengangkutan lanjutan diisi nomor dan tanggal SAKR sebelumnya<br><br>
+            <strong>Rumus Volume:</strong> V = (P × L × T × Jumlah) / 1.000.000 (dalam M³)
+        </div>
+
+        <div class="signature-section">
+            <div class="signature-box">
+                <div id="currentPlaceDate"></div>
+                <div style="margin-top: 10px;">Penerbit SAKR.</div>
+                <div class="signature-line">
+                    <input type="text" id="penandatangan" value="GIYONO YUSUF" style="border: none; text-align: center; font-weight: bold; width: 100%;">
+                </div>
+            </div>
+        </div>
+
+        <button class="print-btn" onclick="window.print()">
+            🖨️ Cetak Halaman
+        </button>
+    </div>
+
+    <script>
+        function calculateVolume(element) {
+            const row = element.closest('tr');
+            const inputs = row.querySelectorAll('input[type="number"]');
+            const p = parseFloat(inputs[0].value) || 0;
+            const l = parseFloat(inputs[1].value) || 0;
+            const t = parseFloat(inputs[2].value) || 0;
+            const jumlah = parseFloat(inputs[3].value) || 0;
+            const volume = (p * l * t * jumlah) / 1000000;
+            const volumeCell = row.querySelector('.volume-cell');
+            volumeCell.textContent = volume.toFixed(2);
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const rows = document.querySelectorAll('#dataBody tr:not(.total-row)');
+            let totalJumlah = 0;
+            let totalVolume = 0;
+            rows.forEach(row => {
+                const jumlahInput = row.querySelectorAll('input[type="number"]')[3];
+                const volumeCell = row.querySelector('.volume-cell');
+                if (jumlahInput && volumeCell) {
+                    totalJumlah += parseFloat(jumlahInput.value) || 0;
+                    totalVolume += parseFloat(volumeCell.textContent) || 0;
+                }
+            });
+            document.getElementById('totalJumlah').innerHTML = `<strong>${totalJumlah}</strong>`;
+            document.getElementById('totalVolume').innerHTML = `<strong>${totalVolume.toFixed(2)}</strong>`;
+        }
+        
+        function setupAutomaticDates() {
+            const masaBerlakuInput = document.getElementById('masa_berlaku_hari');
+            const tanggalMulaiInput = document.getElementById('tanggal_mulai');
+            const tanggalSelesaiInput = document.getElementById('tanggal_selesai');
+
+            function calculateEndDate() {
+                const startDate = new Date(tanggalMulaiInput.value);
+                const duration = parseInt(masaBerlakuInput.value, 10);
+
+                if (tanggalMulaiInput.value && !isNaN(duration) && duration > 0) {
+                    const endDate = new Date(startDate.getTime());
+                    endDate.setDate(startDate.getDate() + duration - 1);
+                    tanggalSelesaiInput.value = endDate.toISOString().split('T')[0];
+                } else {
+                    tanggalSelesaiInput.value = '';
+                }
+            }
+            const today = new Date();
+            tanggalMulaiInput.value = today.toISOString().split('T')[0];
+            masaBerlakuInput.addEventListener('input', calculateEndDate);
+            tanggalMulaiInput.addEventListener('change', calculateEndDate);
+            calculateEndDate();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const formattedDate = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
+            document.getElementById('currentPlaceDate').textContent = `Cilacap, ${formattedDate}`;
+            
+            calculateTotals();
+            setupAutomaticDates();
+        });
+    </script>
+</body>
+</html>
