@@ -116,10 +116,23 @@
             gap: 15px;
             align-items: center;
         }
+        .bottom-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 30px;
+        }
+        .notes {
+            font-size: 11px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            width: 60%;
+        }
         .signature-section {
             display: flex;
             justify-content: flex-end; /* Align to the right */
-            margin-top: 30px;
+            width: 35%;
         }
         .signature-box {
             text-align: center;
@@ -130,13 +143,6 @@
             margin-top: 60px;
             padding-top: 5px;
         }
-        .notes {
-            font-size: 11px;
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-        }
         .print-btn {
             background-color: #007bff;
             color: white;
@@ -146,7 +152,7 @@
             cursor: pointer;
             font-size: 16px;
             display: block;
-            margin: 20px auto;
+            margin: 30px auto 20px auto;
         }
         .print-btn:hover {
             background-color: #0056b3;
@@ -183,7 +189,15 @@
                 width: 100%;
                 box-sizing: border-box; /* Agar padding tidak menambah lebar */
             }
+            .bottom-wrapper {
+                flex-direction: column;
+            }
+            .notes, .signature-section {
+                width: 100%;
+                box-sizing: border-box;
+            }
             .signature-section {
+                margin-top: 20px;
                 justify-content: center; /* Pusatkan tanda tangan */
             }
         }
@@ -209,8 +223,13 @@
                 max-width: 100%;
                 padding: 0;
             }
-            .print-btn, .header, .notes {
-                display: none; /* Sembunyikan tombol, header, dan catatan saat cetak */
+            .print-btn, .header {
+                display: none; /* Sembunyikan tombol dan header saat cetak */
+            }
+            .notes {
+                background-color: transparent !important;
+                border: 1px solid #000 !important;
+                font-size: 9pt;
             }
             .table-container {
                 overflow-x: visible; /* Tampilkan tabel penuh di cetakan */
@@ -238,7 +257,7 @@
             .volume-cell {
                  background-color: #fff !important;
             }
-            .table-container, .validity-section, .signature-section {
+            .table-container, .validity-section, .signature-section, .bottom-wrapper {
                 page-break-inside: avoid;
             }
         }
@@ -356,19 +375,21 @@
             </table>
         </div>
 
-        <div class="notes">
-            <strong>Catatan:</strong><br>
-            *) dari bukti pemilikan/penguasaan sesuai ketentuan Kementerian ATR/BPN<br>
-            *) untuk pengangkutan lanjutan diisi nomor dan tanggal SAKR sebelumnya<br><br>
-            <strong>Rumus Volume:</strong> V = (P × L × T × Jumlah) / 1.000.000 (dalam M³)
-        </div>
+        <div class="bottom-wrapper">
+            <div class="notes">
+                <strong>Catatan:</strong><br>
+                *) dari bukti pemilikan/penguasaan sesuai ketentuan Kementerian ATR/BPN<br>
+                *) untuk pengangkutan lanjutan diisi nomor dan tanggal SAKR sebelumnya<br><br>
+                <strong>Rumus Volume:</strong> V = (P × L × T × Jumlah) / 1.000.000 (dalam M³)
+            </div>
 
-        <div class="signature-section">
-            <div class="signature-box">
-                <div id="currentPlaceDate"></div>
-                <div style="margin-top: 10px;">Penerbit SAKR.</div>
-                <div class="signature-line">
-                    <input type="text" id="penandatangan" value="GIYONO YUSUF" style="border: none; text-align: center; font-weight: bold; width: 100%;">
+            <div class="signature-section">
+                <div class="signature-box">
+                    <div id="currentPlaceDate"></div>
+                    <div style="margin-top: 10px;">Penerbit SAKR.</div>
+                    <div class="signature-line">
+                        <input type="text" id="penandatangan" value="GIYONO YUSUF" style="border: none; text-align: center; font-weight: bold; width: 100%;">
+                    </div>
                 </div>
             </div>
         </div>
